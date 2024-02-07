@@ -23,12 +23,14 @@ public class UsuarioController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/usuarios")
     public ResponseEntity<UsuarioModel> createUsuario(@RequestBody @Valid UsuarioRecordDto usuarioRecordDto){
         var usuarioModel = new UsuarioModel();
         BeanUtils.copyProperties(usuarioRecordDto, usuarioModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuarioModel));
     }
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/usuarios")
     public ResponseEntity<List<UsuarioModel>> getAllUsuarios(){
         List<UsuarioModel> usuarioModelList = usuarioRepository.findAll();
@@ -41,6 +43,7 @@ public class UsuarioController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioModelList);
     }
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/usuarios/{nome}/{senha}")
     public ResponseEntity<Object> getByNomeAndSenhaUsuario(@PathVariable(name = "nome") String nome,
                                                                  @PathVariable(name = "senha") String senha){
@@ -51,6 +54,7 @@ public class UsuarioController {
         usuarioModelOptional.get().add(linkTo(methodOn(UsuarioController.class).getAllUsuarios()).withRel("Link com todos os usuarios: "));
         return ResponseEntity.status(HttpStatus.OK).body(usuarioModelOptional.get());
     }
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PutMapping("/usuarios/{nome}/{senha}")
     public ResponseEntity<Object> putByNomeAndSenhaUsuario(@PathVariable(name = "nome") String nome,
                                                            @PathVariable(name = "senha") String senha,
@@ -64,6 +68,7 @@ public class UsuarioController {
         usuarioModelOptional.get().add(linkTo(methodOn(UsuarioController.class).getAllUsuarios()).withRel("Link com todos os usuários: "));
         return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(copyUsuarioModelOptional));
     }
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @DeleteMapping("usuarios/{nome}/{senha}")
     public ResponseEntity<Object> deleteNomeAndSenhaUsuario(@PathVariable(name = "nome") String nome,
                                                                   @PathVariable(name = "senha") String senha){
